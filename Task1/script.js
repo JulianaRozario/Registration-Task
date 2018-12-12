@@ -1,4 +1,6 @@
 
+var isFormFieldError = false ; 
+
 /* Form field validation */
 
 function validatName(fieldObject,errorContainerObject,fieldErrorMesage) {
@@ -32,14 +34,17 @@ $(document).ready(function(){
         		$(this).css("border-color", "#FF0000");
         		$('#submit').attr('disabled',true);
         		$("#e_fname").text("* You have to enter your first name!");
+				isFormFieldError = true;
         	} else if($(this).val()!='') {
 				validatName(this,$("#e_fname"),"Invalid first name");
+				isFormFieldError = true;
 			}
         	else
         	{
         		$(this).css("border-color", "#2eb82e");
         		$('#submit').attr('disabled',false);
         		$("#e_fname").text("");
+				isFormFieldError = false;
 
         	}
        });
@@ -50,38 +55,38 @@ $(document).ready(function(){
         		$(this).css("border-color", "#FF0000");
         			$('#submit').attr('disabled',true);
         			$("#e_lname").text("* You have to enter your Last name!");
+					isFormFieldError = true;
         	}else if($(this).val()!='') {
 				validatName(this,$("#e_lname"),"Invalid last name");
+				isFormFieldError = true;
 			}
         	else
         	{
         		$(this).css("border-color", "#2eb82e");
         		$('#submit').attr('disabled',false);
         		$("#e_lname").text("");
+				isFormFieldError = false;
         	}
        });
 
        /*email validation */
        function validateEmail(sEmail) {
         var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-        if (filter.test(sEmail)) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+        return filter.test(sEmail);
+	   }
         $("#email").focusout(function(e){
     		var sEmail = $('#email').val();
-        if ($.trim(sEmail).length == 0) {
+			if ($.trim(sEmail).length == 0) {
         		$(this).css("border-color", "#FF0000");
         			$('#submit').attr('disabled',true);
         			$(".e_email").text("* You have to enter a valid email address!");
+					isFormFieldError = true;
             }
             if (validateEmail(sEmail)) {
                 $(this).css("border-color", "green");
                 $('#submit').attr('disabled',false);
         		$(".e_email").text("");
+				isFormFieldError = true;
             }
         	else
         	{
@@ -134,6 +139,8 @@ $(document).ready(function(){
 
   $("#country").on("change",function(){
     var statesArr = statesObj[($("#country").val())];
+		$("#state").empty();
+		$("#state").append("<option selected>Choose...</option><option>...</option>");
         $.each(statesArr, function(index, element){
         $("#state").append("<option value='"+element+"'>" +element+ "</option>");
         });
@@ -145,7 +152,8 @@ $(document).ready(function(){
         "Texas": ["A","B"]
       };
       $("#state").on("change",function(){
-
+		$("#city").empty();
+		$("#city").append("<option selected>Choose...</option><option>...</option>");
         var citiesArr= citiesObj[$("#state").val()];
             $.each(citiesArr, function(index, element){
               
@@ -178,54 +186,9 @@ $(document).ready(function(){
  
 /* Submit button */
    $("#submit").click(function () {
-    if ($("#fname").val() == '') {
-        $("#fname").css("border-color", "red");
-        $('#submit').attr('disabled', true);
-        $("#e_fname").text("* You have to enter your first name!");
-    }
-    if ($("#lname").val() == '') {
-        $("#lname").css("border-color", "red");
-        $('#submit').attr('disabled', true);
-        $("#e_lname").text("* You have to enter your Last name!");
-    }
-    
-    if ($("#email").val() == '') {
-        $("#email").css("border-color", "red");
-        $('#submit').attr('disabled', true);
-        $(".e_email").text("* You have to enter your email !");
-    }
+		if(!isFormFieldError) return false;
 
-    
-
-if ($("#phoneno").val() == '') {
-$("#phoneno").css("border-color", "red");
-$('#submit').attr('disabled', true);
-$("#e_phoneno").text("* You have to enter your phoneno !");
-
-}
-if ($("#country").val() == '') {
-$("#country").css("border-color", "red");
-$('#submit').attr('disabled', true);
-$("#e_country").text("Select anyone!");
-}
-if ($("#city").val() == '') {
-$("#city").css("border-color", "red");
-$('#submit').attr('disabled', true);
-$("#e_city").text("Select anyone!");
-}
-if ($("#state").val() == '') {
-$("#state").css("border-color", "red");
-$('#submit').attr('disabled', true);
-$("#e_state").text("Select anyone!");
-}
-if (!$("input[name='Pass']:checked").val()) {
-    $("#pass").css("border-color", "red");
-    $('#submit').attr('disabled', true);
-    $(".e_pass").text("Select anyone!");
-
-}
-
-});
+   });
 
 
 
