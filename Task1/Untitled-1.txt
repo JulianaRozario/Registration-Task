@@ -1,0 +1,107 @@
+var countriesArray =  ['india','us'];
+
+$each(countriesArray, function(index, element){
+
+ 
+
+  $("#country").append("<option value='"+element+"'>" +element+ "</option>");
+
+ 
+
+});
+
+ 
+
+var statesObj = {
+
+  "india" : ["TamilNadu", "Kerala"],
+
+  "us" : ["New Jersy","Texas"]
+
+};
+
+ 
+
+$("#country").on("change",function(){
+
+  console.log($(this).val());
+
+ 
+
+ console.log( statesObj[$(this).val()]);
+
+ 
+
+  var statesArr = statesObj[$(this);
+
+                           
+
+$each(statesArr, function(index, element){
+
+ 
+
+  $("#state").append("<option value='"+element+"'>" +element+ "</option>");
+
+ 
+
+});
+
+ 
+
+ var citiesObj = {
+
+  "TamilNadu" : ["chennai", "trichy"],
+
+  "kerala" : ["cochin","trivandrum"],
+
+  "New Jersy" : ["Newark"]
+
+};
+
+ 
+
+  $("#state").on("change",function(){
+
+   
+
+     console.log($(this).val());
+
+ 
+
+    console.log( citiesObj[$(this).val()]);
+
+ 
+
+  var statesArr = statesObj[$(this);
+
+                           
+
+                            //for each
+
+                            //// load cities drop down , that is multiple select, minimun two choose max is unlimited...
+
+    
+
+  });
+
+ 
+
+  
+
+  
+
+});
+
+ 
+
+ 
+
+ 
+
+var statesArray = [
+
+  {"india" : ["TamilNadu", "Kerala"]},
+
+  {"us" : ["New Jersy","Texas"]}
+
+];
