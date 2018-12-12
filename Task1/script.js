@@ -1,28 +1,40 @@
+
+/* Form field validation */
+
+function validatName(fieldObject,errorContainerObject,fieldErrorMesage) {
+
+	var returnFlag = false;
+	var alphabetsOnlyPattern = new RegExp("^[a-zA-Z]+$");
+	var name = $(fieldObject).val();
+	
+	if (alphabetsOnlyPattern.test(name)) {
+		returnFlag = true;
+	}
+	else
+	{
+		$(errorContainerObject).show();
+		$(errorContainerObject).text(fieldErrorMesage);
+	}
+	return returnFlag;
+}
+
+
+
+
+
 $(document).ready(function(){
         $flag=1;
         /* Fname and Lname validation*/
 
-        $('.txtOnly').keypress(function (e) {
-			var regex = new RegExp("^[a-zA-Z]+$");
-			var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-			if (regex.test(str)) {
-				return true;
-			}
-			else
-			{
-			e.preventDefault();
-			$('.error').show();
-			$('.error').text('Please Enter a valid first name');
-			return false;
-            }
-        }); 
         /*fname*/
     	$("#fname").focusout(function(){
     		if($(this).val()==''){
         		$(this).css("border-color", "#FF0000");
-        			$('#submit').attr('disabled',true);
-        			 $("#e_fname").text("* You have to enter your first name!");
-        	}
+        		$('#submit').attr('disabled',true);
+        		$("#e_fname").text("* You have to enter your first name!");
+        	} else if($(this).val()!='') {
+				validatName(this,$("#e_fname"),"Invalid first name");
+			}
         	else
         	{
         		$(this).css("border-color", "#2eb82e");
@@ -38,7 +50,9 @@ $(document).ready(function(){
         		$(this).css("border-color", "#FF0000");
         			$('#submit').attr('disabled',true);
         			$("#e_lname").text("* You have to enter your Last name!");
-        	}
+        	}else if($(this).val()!='') {
+				validatName(this,$("#e_lname"),"Invalid last name");
+			}
         	else
         	{
         		$(this).css("border-color", "#2eb82e");
@@ -57,7 +71,7 @@ $(document).ready(function(){
             return false;
         }
     }
-        $("#email").focusout(function(){
+        $("#email").focusout(function(e){
     		var sEmail = $('#email').val();
         if ($.trim(sEmail).length == 0) {
         		$(this).css("border-color", "#FF0000");
